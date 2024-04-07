@@ -20,19 +20,19 @@ const NavBar = () => {
 
     const h2Styles = {
         fontFamily: 'Roboto',
-        fontSize: '2em', // Tamaño de letra más grande
+        fontSize: '2em', 
         fontWeight: 'bold',
         margin: '0',
         padding: '5%',
         color: 'white',
-        textDecoration: 'none', // Evitar subrayado en enlaces
+        textDecoration: 'none', 
     };
     
     return (
         <nav style={styles}>
             <img src='media/logo_ferrari.png' alt="logo" width="50" height="50" style={logoStyles} />
-            <a href='#' style={h2Styles}>Posts</a>
-            <a href='#' style={h2Styles}>Cars</a>
+            <a href='/posts/post.html' style={h2Styles}>Posts</a>
+            <a href='/cars/cars.html' style={h2Styles}>Cars</a>
         </nav>
     );
     
@@ -41,7 +41,7 @@ const NavBar = () => {
 const Media = () => {
     return (
         <main>
-            <video width="100%" height="100%" autoPlay muted loop playsInline volume={0.1}>
+            <video width="100%" height="100%" autoPlay loop playsInline volume={1}>
                 <source src="media/Video_anuncio.mp4" type="video/mp4" />
             </video>
             <img src='media/Ferrari3.jpg' alt="video" width="100%" height="100%" />
