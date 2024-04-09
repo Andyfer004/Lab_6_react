@@ -77,7 +77,16 @@ const Card = ({ car }) => {
     );
 };
 
-
+Card.propTypes = {
+    car: PropTypes.shape({
+        id: PropTypes.number,
+        marca: PropTypes.string,
+        modelo: PropTypes.string,
+        anio: PropTypes.number,
+        descripcion: PropTypes.string,
+        imagen_base64: PropTypes.string,
+    }),
+};
 
 
 const App = () => {

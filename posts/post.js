@@ -100,8 +100,15 @@ const Card = ({ post }) => {
     );
 };
 
-
-
+Card.propTypes = {
+    post: PropTypes.shape({
+        id: PropTypes.number,
+        titulo: PropTypes.string,
+        contenido: PropTypes.string,
+        imagen_url: PropTypes.string,
+        carro_id: PropTypes.null,
+    }),
+};
 
 const App = () => {
 
