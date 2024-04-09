@@ -39,6 +39,44 @@ const NavBar = () => {
     
 }
 
+const Loading = () => {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <h1>Loading...</h1>
+        </div>
+    );
+};
+
+const PostsLoader = () => {
+    const [posts, setPosts] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        fetch('http://3.129.191.211/api/22944/posts')
+            .then(response => response.json())
+            .then(data => {
+                setPosts(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    return (
+        <>
+            {posts.map(post => (
+                <Card key={post.id} post={post} />
+            ))}
+        </>
+    );
+};
+
 const Card = ({ post }) => {
     const [isColumnLayout, setIsColumnLayout] = React.useState(false);
     const cardStyles = {
@@ -112,14 +150,6 @@ Card.propTypes = {
 
 const App = () => {
 
-    const [posts, setPosts] = React.useState([]);
-
-    React.useEffect(() => {
-        fetch('http://3.129.191.211/api/22944/posts')
-            .then(response => response.json())
-            .then(data => setPosts(data))
-            .catch(error => console.error(error));
-    }, []);
 
     const styles = {
         backgroundColor: 'White', // color de fondo
@@ -133,9 +163,9 @@ const App = () => {
     return (
         <main style={styles}>
             <NavBar />
-            {posts.map(post => (
-                <Card key={posts.id} post={post} />
-            ))}
+            <React.Suspense fallback={<Loading />}>
+                <PostsLoader />
+            </React.Suspense>
         </main>
     );
 }

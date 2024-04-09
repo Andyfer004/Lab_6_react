@@ -39,6 +39,44 @@ const NavBar = () => {
     
 }
 
+const Loading = () => {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <h1>Loading...</h1>
+        </div>
+    );
+};
+
+const PostsLoader = () => {
+    const [cars, setCars] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        fetch('http://3.129.191.211/api/22944/cars')
+            .then(response => response.json())
+            .then(data => {
+                setCars(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return <Loading />;
+    }
+
+    return (
+        <>
+            {cars.map(car => (
+                <Card key={car.id} car={car} />
+            ))}
+        </>
+    );
+};
+
 const Card = ({ car }) => {
     const cardStyles = {
         boxSizing: 'border-box',
@@ -91,14 +129,6 @@ Card.propTypes = {
 
 const App = () => {
 
-    const [cars, setCars] = React.useState([]);
-
-    React.useEffect(() => {
-        fetch('http://3.129.191.211/api/22944/cars')
-            .then(response => response.json())
-            .then(data => setCars(data))
-            .catch(error => console.error(error));
-    }, []);
 
     const styles = {
         backgroundColor: 'White', // color de fondo
@@ -112,9 +142,9 @@ const App = () => {
     return (
         <main style={styles}>
             <NavBar />
-            {cars.map(car => (
-                <Card key={car.id} car={car} />
-            ))}
+            <React.Suspense fallback={<Loading />}>
+                <PostsLoader />
+            </React.Suspense>
         </main>
     );
 }
