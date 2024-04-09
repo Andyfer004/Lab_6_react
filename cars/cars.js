@@ -50,22 +50,58 @@ const Loading = () => {
 const PostsLoader = () => {
     const [cars, setCars] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(null); // Estado para manejar errores
 
     React.useEffect(() => {
-        fetch('http://3.129.191.211/api/22944/cars')
-            .then(response => response.json())
-            .then(data => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch('http://3.129.191.211/api/22944/cars');
+
+                if (!response.ok) {
+                    // Si la respuesta no es 2xx, considerarlo como un error
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // Aquí puedes agregar validaciones adicionales sobre el formato de los datos si es necesario
+                if (!Array.isArray(data)) {
+                    // Suponiendo que esperas un array de posts, si no lo es, lanza un error
+                    throw new Error("Formato de datos incorrecto");
+                }
+
                 setCars(data);
+            } catch (error) {
+                // Manejar cualquier error que ocurra durante la fetch o el procesamiento de los datos
+                console.error('Error al cargar los posts:', error);
+                setError(error.toString());
+            } finally {
                 setLoading(false);
-            })
-            .catch(error => {
-                console.error(error);
-                setLoading(false);
-            });
+            }
+        };
+
+        fetchData();
     }, []);
 
     if (loading) {
         return <Loading />;
+    }
+
+    if (error) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <h1>Error: {error}</h1>
+            </div>
+        );
+    }
+
+    if (cars.length === 0) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <h1>No hay autos para mostrar</h1>
+            </div>
+        );
     }
 
     return (
@@ -142,9 +178,9 @@ const App = () => {
     return (
         <main style={styles}>
             <NavBar />
-            <React.Suspense fallback={<Loading />}>
-                <PostsLoader />
-            </React.Suspense>
+                <React.Suspense fallback={<Loading />}>
+                 <PostsLoader />
+                </React.Suspense>
         </main>
     );
 }
