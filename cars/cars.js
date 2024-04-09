@@ -20,7 +20,7 @@ const NavBar = () => {
 
     const h2Styles = {
         fontFamily: 'Roboto',
-        fontSize: '2em', 
+        fontSize: '1.5em', 
         fontWeight: 'bold',
         margin: '0',
         padding: '5%',
@@ -30,7 +30,8 @@ const NavBar = () => {
     
     return (
         <nav style={styles}>
-            <img src='../media/logo_ferrari.png' alt="logo" width="50" height="50" style={logoStyles} />
+            <img src='../media/logo_ferrari.png' alt="logo" width="40" height="40" style={logoStyles} />
+            <a href='../index.html' style={h2Styles}>Home</a>
             <a href='../posts/post.html' style={h2Styles}>Posts</a>
             <a href='../cars/cars.html' style={h2Styles}>Cars</a>
         </nav>
