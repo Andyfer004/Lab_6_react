@@ -113,6 +113,27 @@ const PostsLoader = () => {
     );
 };
 
+const Footer = () => {
+    const styles = {
+        position: 'fixed', // Fijar la posición del footer
+        bottom: 0, // Colocarla en la parte inferior
+        background: 'black',
+        color: 'white', // color de texto
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '0%',
+        height: '5vh',
+        width: '100%',
+        zIndex: 1000, // Asegurar que esté por encima de otros elementos
+    };
+
+    return (
+        <footer style={styles}>
+            <p>&copy; 2024 - Todos los derechos reservados Autor: Andy Fuentes</p>
+        </footer>
+    );
+}
 const Card = ({ car }) => {
     const cardStyles = {
         boxSizing: 'border-box',
@@ -181,6 +202,7 @@ const App = () => {
                 <React.Suspense fallback={<Loading />}>
                  <PostsLoader />
                 </React.Suspense>
+            <Footer />
         </main>
     );
 }
